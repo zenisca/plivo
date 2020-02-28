@@ -2,9 +2,9 @@
 
 namespace NotificationChannels\Plivo;
 
-use Plivo\RestClient as PlivoRestApi;
+use Plivo\RestClient as PlivoRestClient;
 
-class Plivo extends PlivoRestApi
+class Plivo extends PlivoRestClient
 {
     /** @var string */
     protected $auth_id;

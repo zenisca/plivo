@@ -48,13 +48,15 @@ class PlivoChannel
             $message = new PlivoMessage($message);
         }
 
-        $response = $this->plivo->send_message([
-            'src' => $message->from ?: $this->from,
-            'dst' => $to,
-            'text' => trim($message->content),
-        ]);
+        $msgresponse = $this->plivo->messages->create(
+            $message->from ?: $this->from,
+            [$to],
+            trim($message->content)
+        );
 
+        $response = ['status'=>$msgresponse->statusCode];
         if ($response['status'] !== 202) {
+            $response['response']['error']=$msgresponse->message;
             throw CouldNotSendNotification::serviceRespondedWithAnError($response);
         }
 
